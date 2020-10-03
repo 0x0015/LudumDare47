@@ -5,9 +5,10 @@ using UnityEngine;
 public class DoNotDestroy : MonoBehaviour
 {
     // Start is called before the first frame update
+    public string Tag;
     void Awake()
     {
-        GameObject[] objs = GameObject.FindGameObjectsWithTag("music");
+        GameObject[] objs = GameObject.FindGameObjectsWithTag(Tag);
         if(objs.Length > 1)
         {
             Destroy(this.gameObject);
