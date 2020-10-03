@@ -16,11 +16,12 @@ public class PlayerMovement : MonoBehaviour
     public bool collideFromBottom;
     public int jumptimer = 0;
     public bool hit = false;
+
+    Vector2 startingPosition;
     void Start()
     {
-        
+        startingPosition = transform.position;
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -43,6 +44,13 @@ public class PlayerMovement : MonoBehaviour
             {
 
             }
+
+            if (!onground)
+            {
+                velocity.y -= 1;
+            }
+
+
             if (Input.GetKey(KeyCode.UpArrow))
             {
                 if (onground || jumptimer < 10)
@@ -63,19 +71,16 @@ public class PlayerMovement : MonoBehaviour
                     jumptimer = 99;
                 }
             }
-            if(onground == true)
+
+
+            if (onground == true)
             {
                 jumptimer = 0;
                 velocity.y = 0;
             }
-            if (!onground)
-            {
-                velocity.y -= 1;
-            }
-            else
-            {
-                velocity.y = 0;
-            }
+
+
+
             if (collideFromTop && velocity.y > 0)
             {
                 velocity.y = 0;
@@ -90,7 +95,8 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            Respawn(startingPosition);
         }
     }
 
@@ -138,5 +144,12 @@ public class PlayerMovement : MonoBehaviour
         collideFromRight = false;
         collideFromBottom = false;
     }
-
+    void Respawn(Vector2 position)
+    {
+        hit = false;
+        velocity = Vector2.zero;
+        jumptimer = 0;
+        //transform.Translate(startingPosition.x, startingPosition.y, 0, Space.World);
+        transform.position = new Vector3(startingPosition.x, startingPosition.y, 0);
+    }
 }
