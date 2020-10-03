@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -106,6 +107,10 @@ public class PlayerMovement : MonoBehaviour
         {
             hit = true;
         }
+        if (collision.collider.gameObject.GetComponent<Flag>())
+        {
+            Win();
+        }
     }
 
     void OnCollisionStay2D(Collision2D collision)
@@ -151,5 +156,11 @@ public class PlayerMovement : MonoBehaviour
         jumptimer = 0;
         //transform.Translate(startingPosition.x, startingPosition.y, 0, Space.World);
         transform.position = new Vector3(startingPosition.x, startingPosition.y, 0);
+    }
+    void Win()
+    {
+        int level = int.Parse(SceneManager.GetActiveScene().name.Last().ToString());
+        level++;
+        SceneManager.LoadScene("Level" + level.ToString());
     }
 }
