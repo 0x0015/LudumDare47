@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     public bool collideFromRight;
     public bool collideFromBottom;
     public int jumptimer = 0;
-    public float hit = 0;
+    public bool hit = false;
     void Start()
     {
         
@@ -24,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         var rigidBody = GetComponent<Rigidbody2D>();
-        if (hit <= 0)
+        if (hit == false)
         {
             
             onground = collideFromBottom;
@@ -89,17 +90,16 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            rigidBody.velocity = velocity;
-            hit -= Time.deltaTime * 60;
-            if(collideFromTop)
-            {
-                hit = 0;
-            }
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.collider.gameObject.GetComponent<Spike>())
+        {
+            hit = true;
+        }
     }
 
     void OnCollisionStay2D(Collision2D collision)
