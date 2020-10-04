@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     public bool collideFromTop;
     public bool collideFromRight;
     public bool collideFromBottom;
-    public int jumptimer = 0;
+    public float jumptimer = 0;
     public bool hit = false;
 
     Vector2 startingPosition;
@@ -46,18 +46,23 @@ public class PlayerMovement : MonoBehaviour
 
             }
 
-            if (!onground)
-            {
-                velocity.y -= 1;
-            }
+
 
 
             if (Input.GetKey(KeyCode.UpArrow))
             {
-                if (onground || jumptimer < 10)
+                if (jumptimer <= 0)
                 {
-                    velocity.y += 3.1f;
-                    jumptimer++;
+                    velocity.y = 0;
+                }
+                if (jumptimer < 10)
+                {
+                    if (Input.GetKeyDown(KeyCode.UpArrow))
+                    {
+                        velocity.y = 0;
+                    }
+                    velocity.y += 2.8f;
+                    jumptimer ++;
                     onground = false;
                 }
             }
@@ -66,21 +71,18 @@ public class PlayerMovement : MonoBehaviour
                 if (onground == true)
                 {
                     jumptimer = 0;
-                }
-                else
-                {
-                    jumptimer = 99;
+                    velocity.y = 0;
                 }
             }
 
 
-            if (onground == true)
+
+
+
+            if (!onground)
             {
-                jumptimer = 0;
-                velocity.y = 0;
+                velocity.y -= 1;
             }
-
-
 
             if (collideFromTop && velocity.y > 0)
             {
