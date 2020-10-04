@@ -2,7 +2,7 @@
 using UnityEngine.SceneManagement;
 using System.Linq;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMoveReversed : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameObject up;
@@ -29,15 +29,15 @@ public class PlayerMovement : MonoBehaviour
         var rigidBody = GetComponent<Rigidbody2D>();
         if (hit == false)
         {
-            
+
             onground = collideFromBottom;
 
             velocity.x = 0;
-            if (Input.GetKey(KeyCode.RightArrow))
+            if (Input.GetKey(KeyCode.LeftArrow))
             {
                 velocity.x += 8;
             }
-            if (Input.GetKey(KeyCode.LeftArrow))
+            if (Input.GetKey(KeyCode.RightArrow))
             {
                 velocity.x -= 8;
             }
@@ -62,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
                         velocity.y = 0;
                     }
                     velocity.y += 2.8f;
-                    jumptimer ++;
+                    jumptimer++;
                     onground = false;
                 }
             }
@@ -123,17 +123,17 @@ public class PlayerMovement : MonoBehaviour
         collideFromBottom = false;
         //print("collided");
         int contactCount = collision.GetContactCount();
-        for(int i = 0; i < contactCount; i++)
+        for (int i = 0; i < contactCount; i++)
         {
             var side = collision.GetContactSide(i);
             if (side == Collision2DSideType.Bottom && up.GetComponent<DetectBoxCollider>().collided)
                 collideFromTop = true;
-            if(side == Collision2DSideType.Top && down.GetComponent<DetectBoxCollider>().collided)
-            collideFromBottom = true;
-            if(side == Collision2DSideType.Right && left.GetComponent<DetectBoxCollider>().collided)
-            collideFromLeft = true;
-            if(side == Collision2DSideType.Left && right.GetComponent<DetectBoxCollider>().collided)
-            collideFromRight = true;
+            if (side == Collision2DSideType.Top && down.GetComponent<DetectBoxCollider>().collided)
+                collideFromBottom = true;
+            if (side == Collision2DSideType.Right && left.GetComponent<DetectBoxCollider>().collided)
+                collideFromLeft = true;
+            if (side == Collision2DSideType.Left && right.GetComponent<DetectBoxCollider>().collided)
+                collideFromRight = true;
         }
         if (collideFromBottom)
         {
@@ -162,7 +162,7 @@ public class PlayerMovement : MonoBehaviour
     void Win()
     {
         string SceneName = SceneManager.GetActiveScene().name;
-        int level = int.Parse(SceneName.Substring(SceneName.Length - 2));
+        int level = int.Parse(SceneName.Substring(SceneName.Length-2));
         level++;
         SceneManager.LoadScene("Level" + string.Format("{0:00}", level));
     }
