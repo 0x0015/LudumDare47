@@ -94,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
                 velocity.y = -20;
             if (velocity.y > 20)
                 velocity.y = 20;
-            rigidBody.velocity = velocity;
+            rigidBody.velocity = velocity * Time.deltaTime*60;
         }
         else
         {
